@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content%}
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Price Prediction</h1>
+</div>
+
+<div class="row">
+    <div class="col">
+        <form class="row g-3"action="prediction" method="get">
+            <div class="col">
+                <div class="input-group flex-nowrap mb-3">
+                    <span class="input-group-text" id="addon-wrapping">Area</span>
+                    <input type="number" name="area" required class="form-control" placeholder="Area in sqm" aria-label="area" aria-describedby="addon-wrapping">
+                </div>
+            </div>
+            <div class="col">
+                <div class="input-group flex-nowrap mb-3">
+                    <span class="input-group-text" id="addon-wrapping">Rooms</span>
+                    <input type="number" name="rooms" required class="form-control" placeholder="Number of Rooms" aria-label="area" aria-describedby="addon-wrapping">
+                </div>
+            </div>
+            <div class="col">
+                <button class="btn btn-primary" type="submit">Submit</button>
+            </div>
+        </form>
+        </div>
+</div>
+
+{% if price != -1%}
+<div class="row">
+    <div class="col">
+        <div class="alert alert-success" role="alert">
+            Predicted Price is : <strong>{{price}}</strong>
+          </div>
+    </div>
+</div>
+{%endif%}
+{% endblock %}
