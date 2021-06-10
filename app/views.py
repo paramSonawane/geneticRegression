@@ -6,19 +6,31 @@ context = {}
 
 main.trainGenAlgo()
 
-def home(requests) :
+def home(request) :
+    context = {
+        'activeTab' : "dashboard",
+    }
+    return render(request, 'dashboard.html', context)
+
+def prediction(request):
+    price = -1
+    if 'area' in request.GET :
+        print("true")
+        price = main.predictPrice(int(request.GET['area']), int(request.GET['rooms']))
+
+    context = {
+        'activeTab' : "prediction",
+        'price' : price,
+    }
+    return render(request, 'prediction.html', context)
+
+def geneticAlgo(request):
     graphData = main.getData()
     context = {
-        # xDataPoints = x
-        # yDataPoints = y
+        'activeTab' : "geneticAlgo",
         'zDataPoints' : graphData['Z'],
         'firstZ' : graphData['Z'][0],
         'totalChanges' : len(graphData['Z'])-1
     }
-    return render(requests, 'home.html', context)
 
-def prediction(requests):
-    return {}
-
-def geneticAlgo(requests):
-    return {}
+    return render(request, 'geneticAlgo.html', context)
