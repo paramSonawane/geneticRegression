@@ -131,3 +131,15 @@ def getPriceRooms():
     fig.update_yaxes(title_text='Price')
 
     return plot(fig, output_type='div', include_plotlyjs=False)
+
+# def plotSurface(X,Y,Z):
+#     # fig = go.Figure(data=[go.Scatter3d(x=x_data, y=y_data, z=z_data,mode='markers')])
+
+#     # fig.show()
+
+#     fig = go.Figure(data=[go.Surface(z=Z, x=X, y=Y)])
+#     fig.update_layout(title='', autosize=False,
+#                     width=500, height=500,
+#                     margin=dict(l=65, r=50, b=65, t=90))
+
+#     fig.show()
