@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 
-from .logic import main
+from .logic import main, graphs
 context = {}
 
 main.trainGenAlgo()
@@ -9,6 +9,9 @@ main.trainGenAlgo()
 def home(request) :
     context = {
         'activeTab' : "dashboard",
+        'corrGraph' : graphs.getCorrelationGraph(),
+        'priceVArea' : graphs.getPriceArea(),
+        'priceVRooms' : graphs.getPriceRooms(),
     }
     return render(request, 'dashboard.html', context)
 
