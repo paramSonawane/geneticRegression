@@ -1,16 +1,13 @@
 import pandas as pd
 import numpy as np
 import random
-from matplotlib import pyplot as plt
-import seaborn as sns
 import numpy, scipy, scipy.optimize
-import matplotlib
-from mpl_toolkits.mplot3d import  Axes3D
-from matplotlib import cm # to colormap 3D surfaces from blue to red
+
 import matplotlib.pyplot as plt
 import plotly.graph_objects as go
+from miniProject.settings import BASE_DIR
 
-df = pd.read_csv('/home/sinisterstrike/Programs/labAssignments/LP4/miniProject/app/logic/Mumbai.csv')
+df = pd.read_csv(BASE_DIR / "app/logic/Mumbai.csv")
 df['Price'] = df['Price']/100000
 X1 = np.array(df['Area'])
 X1 = X1.reshape((len(X1),1))
@@ -31,7 +28,7 @@ y_test = Y[split:]
 Dn = 3
 M = 0.7
 NP = 1000
-G = 500
+G = 5
 
 graphData = {
     'X' : [],
@@ -123,7 +120,7 @@ def trainGenAlgo():
 
         # survival of the fittest
         pop = sorted(comb, key=lambda z: f(z))[:NP]
-        
+
         if f(pop[0])!= oldVal and gx>50:
             x,y,z = getGraphData()
             graphData['Z'].append(z)
