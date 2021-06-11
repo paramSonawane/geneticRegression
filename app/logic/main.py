@@ -1,10 +1,10 @@
 import pandas as pd
 import numpy as np
-import random
-import numpy, scipy, scipy.optimize
 
-import matplotlib.pyplot as plt
-import plotly.graph_objects as go
+import random
+
+from scipy import optimize
+
 from miniProject.settings import BASE_DIR
 
 df = pd.read_csv(BASE_DIR / "app/logic/Mumbai.csv")
@@ -28,7 +28,7 @@ y_test = Y[split:]
 Dn = 3
 M = 0.7
 NP = 1000
-G = 5
+G = 290
 
 graphData = {
     'X' : [],
@@ -127,9 +127,6 @@ def trainGenAlgo():
             print("added at", gx)
 
         oldVal = f(pop[0])
-def plotLoss():
-    plt.plot(loss)
-    plt.show()
 
 def hypothesis_test(w, x1=X1_test, x2 = X2_test):
     return x1*w[0] + x2*w[1] + w[2]
@@ -140,21 +137,13 @@ def f_test(w):
     y = np.reshape(y,(-1,1))
     return ((y_test - y)**2)
 
-def someScatterPlot():
-    plt.scatter(X1_train, y_train)
-    y_train.max()
-
-    plt.scatter(X1_test, hypothesis_test(pop[0]))
-
-    r2 = 1 - ((hypothesis(pop[0]) - y_train)**2).sum() / ((y_train - y_train.mean())**2).sum()
-
 def predictPrice(area, rooms) :
     return pop[0][0] * area + pop[0][1] * rooms + pop[0][2]
 
 def curvedModel(data, a, b, c, Offset):
     x = data[0]
     y = data[1]
-    return numpy.exp(a+b/y+c*numpy.log(x)) + Offset
+    return np.exp(a+b/y+c*np.log(x)) + Offset
 
 def flatModel(data, a, b, Offset):
     x = data[0]
@@ -174,32 +163,19 @@ def getGraphData():
     initialParameters = [1.0, 1.0, 1.0, 1.0]
 
     data = [xData, yData, zData]
-    fittedParameters, pcov = scipy.optimize.curve_fit(func, [xData, yData], zData, p0 = initialParameters, maxfev=1000)
+    fittedParameters, pcov = optimize.curve_fit(func, [xData, yData], zData, p0 = initialParameters, maxfev=1000)
 
     x_data = data[0]
     y_data = data[1]
     z_data = data[2]
 
-    xModel = numpy.linspace(min(x_data), max(x_data), 20)
-    yModel = numpy.linspace(min(y_data), max(y_data), 20)
-    X, Y = numpy.meshgrid(xModel, yModel)
+    xModel = np.linspace(min(x_data), max(x_data), 20)
+    yModel = np.linspace(min(y_data), max(y_data), 20)
+    X, Y = np.meshgrid(xModel, yModel)
 
-    Z = func(numpy.array([X, Y]), *fittedParameters)
+    Z = func(np.array([X, Y]), *fittedParameters)
 
     return X.tolist(),Y.tolist(),Z.tolist()
-
-def plotSurface(X,Y,Z):
-    # fig = go.Figure(data=[go.Scatter3d(x=x_data, y=y_data, z=z_data,mode='markers')])
-
-    # fig.show()
-
-    fig = go.Figure(data=[go.Surface(z=Z, x=X, y=Y)])
-    fig.update_layout(title='', autosize=False,
-                    width=500, height=500,
-                    margin=dict(l=65, r=50, b=65, t=90))
-
-    fig.show()
-
 
 if __name__ == "__main__" :
     trainGenAlgo()
